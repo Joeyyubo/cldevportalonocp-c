@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import {
   PageSection,
   Title,
+  Tabs,
+  Tab,
+  TabTitleText,
   Breadcrumb,
   BreadcrumbItem,
   Flex,
@@ -54,11 +57,16 @@ const tableData = ROW_NAMES.map((name, i) => ({
 }));
 
 const PortalDetailPage = ({ portalName, onBack }) => {
+  const [activeTabKey, setActiveTabKey] = useState('overview');
   const [planPolicyOpen, setPlanPolicyOpen] = useState(false);
   const [lifecycleOpen, setLifecycleOpen] = useState(false);
   const [actionsOpenRowId, setActionsOpenRowId] = useState(null);
 
   const portalUrl = PORTAL_URLS[portalName] || `https://${portalName.toLowerCase().replace(/\s+/g, '-')}.us.portals.com/`;
+
+  const handleTabSelect = (event, key) => {
+    setActiveTabKey(key);
+  };
 
   return (
     <>
@@ -92,74 +100,88 @@ const PortalDetailPage = ({ portalName, onBack }) => {
             </a>
           </FlexItem>
         </Flex>
-        <Flex alignItems={{ default: 'alignItemsCenter' }} gap={{ default: 'gapMd' }} style={{ marginTop: '24px' }}>
-          <Dropdown
-            isOpen={planPolicyOpen}
-            onOpenChange={(open) => setPlanPolicyOpen(open)}
-            onSelect={() => setPlanPolicyOpen(false)}
-            toggle={(toggleRef) => (
-              <MenuToggle
-                ref={toggleRef}
-                onClick={() => setPlanPolicyOpen((prev) => !prev)}
-                isExpanded={planPolicyOpen}
-                variant="default"
-              >
-                <Icon style={{ marginRight: '8px' }}>
-                  <FilterIcon />
-                </Icon>
-                Plan policy
-              </MenuToggle>
-            )}
-          >
-            <DropdownList>
-              <DropdownItem key="default">Default</DropdownItem>
-              <DropdownItem key="bronze">Bronze</DropdownItem>
-              <DropdownItem key="silver">Silver</DropdownItem>
-              <DropdownItem key="gold">Gold</DropdownItem>
-            </DropdownList>
-          </Dropdown>
-          <Dropdown
-            isOpen={lifecycleOpen}
-            onOpenChange={(open) => setLifecycleOpen(open)}
-            onSelect={() => setLifecycleOpen(false)}
-            toggle={(toggleRef) => (
-              <MenuToggle
-                ref={toggleRef}
-                onClick={() => setLifecycleOpen((prev) => !prev)}
-                isExpanded={lifecycleOpen}
-                variant="default"
-              >
-                <Icon style={{ marginRight: '8px' }}>
-                  <FilterIcon />
-                </Icon>
-                Lifecycle
-              </MenuToggle>
-            )}
-          >
-            <DropdownList>
-              <DropdownItem key="pub">Published</DropdownItem>
-              <DropdownItem key="draft">Draft</DropdownItem>
-              <DropdownItem key="deprecated">Deprecated</DropdownItem>
-            </DropdownList>
-          </Dropdown>
-          <FlexItem align={{ default: 'alignRight' }}>
-            <Button variant="secondary">Import API</Button>
-          </FlexItem>
-        </Flex>
+        <Tabs
+          activeKey={activeTabKey}
+          onSelect={handleTabSelect}
+          style={{ marginTop: '24px' }}
+        >
+          <Tab eventKey="overview" title={<TabTitleText>Overview</TabTitleText>} />
+          <Tab eventKey="published-apis" title={<TabTitleText>Published APIs</TabTitleText>} />
+          <Tab eventKey="editor" title={<TabTitleText>Editor</TabTitleText>} />
+          <Tab eventKey="settings" title={<TabTitleText>Settings</TabTitleText>} />
+        </Tabs>
       </PageSection>
 
-      <PageSection>
-        <Table aria-label={`${portalName} API products`}>
-          <Thead>
-            <Tr>
-              <Th sort={{ columnIndex: 0, direction: 'asc' }}>Name</Th>
-              <Th>Version</Th>
-              <Th>Status</Th>
-              <Th>Policy</Th>
-              <Th />
-            </Tr>
-          </Thead>
-          <Tbody>
+      {activeTabKey === 'published-apis' && (
+        <>
+          <PageSection variant="light" style={{ paddingTop: 0 }}>
+            <Flex alignItems={{ default: 'alignItemsCenter' }} gap={{ default: 'gapMd' }}>
+              <Dropdown
+                isOpen={planPolicyOpen}
+                onOpenChange={(open) => setPlanPolicyOpen(open)}
+                onSelect={() => setPlanPolicyOpen(false)}
+                toggle={(toggleRef) => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    onClick={() => setPlanPolicyOpen((prev) => !prev)}
+                    isExpanded={planPolicyOpen}
+                    variant="default"
+                  >
+                    <Icon style={{ marginRight: '8px' }}>
+                      <FilterIcon />
+                    </Icon>
+                    Plan policy
+                  </MenuToggle>
+                )}
+              >
+                <DropdownList>
+                  <DropdownItem key="default">Default</DropdownItem>
+                  <DropdownItem key="bronze">Bronze</DropdownItem>
+                  <DropdownItem key="silver">Silver</DropdownItem>
+                  <DropdownItem key="gold">Gold</DropdownItem>
+                </DropdownList>
+              </Dropdown>
+              <Dropdown
+                isOpen={lifecycleOpen}
+                onOpenChange={(open) => setLifecycleOpen(open)}
+                onSelect={() => setLifecycleOpen(false)}
+                toggle={(toggleRef) => (
+                  <MenuToggle
+                    ref={toggleRef}
+                    onClick={() => setLifecycleOpen((prev) => !prev)}
+                    isExpanded={lifecycleOpen}
+                    variant="default"
+                  >
+                    <Icon style={{ marginRight: '8px' }}>
+                      <FilterIcon />
+                    </Icon>
+                    Lifecycle
+                  </MenuToggle>
+                )}
+              >
+                <DropdownList>
+                  <DropdownItem key="pub">Published</DropdownItem>
+                  <DropdownItem key="draft">Draft</DropdownItem>
+                  <DropdownItem key="deprecated">Deprecated</DropdownItem>
+                </DropdownList>
+              </Dropdown>
+              <FlexItem align={{ default: 'alignRight' }} style={{ marginLeft: 'auto' }}>
+                <Button variant="secondary">Import API</Button>
+              </FlexItem>
+            </Flex>
+          </PageSection>
+          <PageSection>
+            <Table aria-label={`${portalName} API products`}>
+              <Thead>
+                <Tr>
+                  <Th sort={{ columnIndex: 0, direction: 'asc' }}>Name</Th>
+                  <Th>Version</Th>
+                  <Th>Status</Th>
+                  <Th>Policy</Th>
+                  <Th />
+                </Tr>
+              </Thead>
+              <Tbody>
             {tableData.map((row) => (
               <Tr key={row.id}>
                 <Td>
@@ -206,9 +228,38 @@ const PortalDetailPage = ({ portalName, onBack }) => {
                 </Td>
               </Tr>
             ))}
-          </Tbody>
-        </Table>
-      </PageSection>
+              </Tbody>
+            </Table>
+          </PageSection>
+        </>
+      )}
+
+      {activeTabKey === 'overview' && (
+        <PageSection>
+          <Title headingLevel="h2" size="lg" style={{ marginBottom: '16px' }}>Overview</Title>
+          <p style={{ color: 'var(--pf-v5-global--Color--200)' }}>
+            Portal overview and summary for {portalName}.
+          </p>
+        </PageSection>
+      )}
+
+      {activeTabKey === 'editor' && (
+        <PageSection>
+          <Title headingLevel="h2" size="lg" style={{ marginBottom: '16px' }}>Editor</Title>
+          <p style={{ color: 'var(--pf-v5-global--Color--200)' }}>
+            Edit portal configuration and content.
+          </p>
+        </PageSection>
+      )}
+
+      {activeTabKey === 'settings' && (
+        <PageSection>
+          <Title headingLevel="h2" size="lg" style={{ marginBottom: '16px' }}>Settings</Title>
+          <p style={{ color: 'var(--pf-v5-global--Color--200)' }}>
+            Portal settings and preferences.
+          </p>
+        </PageSection>
+      )}
     </>
   );
 };
