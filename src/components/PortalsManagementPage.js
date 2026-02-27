@@ -40,26 +40,33 @@ const PortalsManagementPage = ({ onPortalClick }) => {
   };
 
   return (
-    <>
-      <PageSection variant="light">
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} alignItems={{ default: 'alignItemsFlexStart' }}>
-          <FlexItem>
-            <Title headingLevel="h1" size="2xl">Portals</Title>
-            <p style={{ marginTop: '8px', color: 'var(--pf-v5-global--Color--200)' }}>
-              Manage portal settings and configurations.
-            </p>
-          </FlexItem>
-          <FlexItem>
-            <Button variant="primary">Create new portal</Button>
-          </FlexItem>
-        </Flex>
-      </PageSection>
+    <PageSection
+      variant="light"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        paddingBottom: '24px'
+      }}
+    >
+      <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} alignItems={{ default: 'alignItemsFlexStart' }}>
+        <FlexItem>
+          <Title headingLevel="h1" size="2xl">Portals</Title>
+          <p style={{ marginTop: '8px', color: 'var(--pf-v5-global--Color--200)' }}>
+            Manage portal settings and configurations.
+          </p>
+        </FlexItem>
+        <FlexItem>
+          <Button variant="primary">Create new portal</Button>
+        </FlexItem>
+      </Flex>
 
-      <PageSection
+      <div
         style={{
-          height: 'calc(100vh - 280px)',
+          flex: '1 1 auto',
+          marginTop: '24px',
           overflowY: 'auto',
-          backgroundColor: 'var(--pf-v5-global--BackgroundColor--100)'
+          minHeight: 0
         }}
       >
         <Grid hasGutter md={6} lg={4}>
@@ -158,8 +165,8 @@ const PortalsManagementPage = ({ onPortalClick }) => {
             </GridItem>
           ))}
         </Grid>
-      </PageSection>
-    </>
+      </div>
+    </PageSection>
   );
 };
 

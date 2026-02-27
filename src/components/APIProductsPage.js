@@ -52,18 +52,11 @@ const APIProductsPage = () => {
   return (
     <>
       <PageSection variant="light">
-        <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }} alignItems={{ default: 'alignItemsFlexStart' }}>
-          <FlexItem>
-            <Title headingLevel="h1" size="2xl">API products</Title>
-            <p style={{ marginTop: '8px', color: 'var(--pf-v5-global--Color--200)' }}>
-              Create and publish your API product to portal.
-            </p>
-          </FlexItem>
-          <FlexItem>
-            <Button variant="primary">Create API Product</Button>
-          </FlexItem>
-        </Flex>
-        <Flex alignItems={{ default: 'alignItemsCenter' }} gap={{ default: 'gapMd' }} style={{ marginTop: '24px' }}>
+        <Title headingLevel="h1" size="2xl">API products</Title>
+        <p style={{ marginTop: '8px', color: 'var(--pf-v5-global--Color--200)' }}>
+          Create and publish your API product to portal.
+        </p>
+        <Flex alignItems={{ default: 'alignItemsFlexEnd' }} gap={{ default: 'gapMd' }} style={{ marginTop: '24px' }}>
           <Dropdown
             isOpen={planPolicyOpen}
             onOpenChange={(open) => setPlanPolicyOpen(open)}
@@ -113,6 +106,9 @@ const APIProductsPage = () => {
               <DropdownItem key="deprecated">Deprecated</DropdownItem>
             </DropdownList>
           </Dropdown>
+          <FlexItem align={{ default: 'alignRight' }} style={{ marginLeft: 'auto' }}>
+            <Button variant="primary">Create API Product</Button>
+          </FlexItem>
         </Flex>
       </PageSection>
 

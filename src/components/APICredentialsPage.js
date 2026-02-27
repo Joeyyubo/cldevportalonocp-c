@@ -83,7 +83,7 @@ const APICredentialsPage = () => {
         <p style={{ marginTop: '8px', color: 'var(--pf-v5-global--Color--200)' }}>
           View the available API credentials you have and request new one.
         </p>
-        <Flex alignItems={{ default: 'alignItemsCenter' }} gap={{ default: 'gapMd' }} style={{ marginTop: '24px' }}>
+        <Flex alignItems={{ default: 'alignItemsFlexEnd' }} gap={{ default: 'gapMd' }} style={{ marginTop: '24px' }}>
           <Dropdown
             isOpen={apiFilterOpen}
             onOpenChange={(open) => setApiFilterOpen(open)}
@@ -141,7 +141,9 @@ const APICredentialsPage = () => {
               style={{ width: '100%', maxWidth: '200px' }}
             />
           </FlexItem>
-          <Button variant="primary">Request API keys</Button>
+          <FlexItem align={{ default: 'alignRight' }} style={{ marginLeft: 'auto' }}>
+            <Button variant="primary">Request API keys</Button>
+          </FlexItem>
         </Flex>
       </PageSection>
 
