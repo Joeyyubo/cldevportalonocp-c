@@ -150,17 +150,30 @@ const App = () => {
 
   const masthead = (
     <Masthead>
-      <MastheadToggle>
-        <PageToggleButton
-          variant="plain"
-          aria-label="Global navigation"
-          isNavOpen={isNavOpen}
-          onNavToggle={onNavToggle}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <MastheadToggle>
+          <PageToggleButton
+            variant="plain"
+            aria-label="Global navigation"
+            isNavOpen={isNavOpen}
+            onNavToggle={onNavToggle}
+          >
+            <BarsIcon />
+          </PageToggleButton>
+        </MastheadToggle>
+        <span
+          style={{
+            fontSize: '1.5rem',
+            fontWeight: 700,
+            letterSpacing: '-0.02em',
+            color: 'var(--pf-v5-global--primary-color--100)',
+            whiteSpace: 'nowrap'
+          }}
         >
-          <BarsIcon />
-        </PageToggleButton>
-      </MastheadToggle>
-      
+          proposal-C
+        </span>
+      </div>
+
       <MastheadContent>
         <div style={{ 
           display: 'flex', 
